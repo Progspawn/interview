@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="contactList">
+  <head>
+	<meta charset="utf-8"> 
+    <script type="text/javascript" src="angular.min.js"></script>
+	<script type="text/javascript" src="ui-bootstrap-tpls-0.12.0.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+	<link href="bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body ng-controller='ContactListController as contactListCtrl'>
+	<div ng-controller = 'EditController as editCtrl'>
+		<div class ="container" style="text-align:center">
+			<div class="row">
+				<h1>Contacts Management</h1>
+			</div>
+			<div class="row">
+				<form name="AddContactForm" role="form" ng-submit="contactListCtrl.updateContacts('add')" ng-hide = "editCtrl.editing" validate>
+					<div class= "col-sm-1"></div>
+					<div class="form-group col-sm-2">
+						<input style="text-align:center" ng-model="contactListCtrl.newContact.name" type="text" class="form-control" placeholder="Name" required>
+					</div>
+					<div class="form-group col-sm-2">
+						<input style="text-align:center" ng-model="contactListCtrl.newContact.email" type="email" class="form-control" placeholder="Email" required>
+					</div>
+					<div class="form-group col-sm-2">
+						<input style="text-align:center" ng-model="contactListCtrl.newContact.location" type="text" class="form-control" placeholder="Location" required>
+					</div>
+					<div class="form-group col-sm-2">
+						<input style="text-align:center" ng-model="contactListCtrl.newContact.primary" type="tel" class="form-control" placeholder="Primary" required>
+					</div>
+					<div class="form-group col-sm-2">
+						<input style="text-align:center; background-color:green" type="submit" class="btn btn-primary pull-right" value="Add Contact" />
+					</div>
+					<div class= "col-sm-1"></div>
+				</form>
+			</div>
+		</div>
+		<div class="container-fluid scrollable">
+			<div class="row">
+				<table class = "table table-striped tableclass">
+					<thead>
+						<tr>
+							<th style="text-align:center">Name</th>
+							<th style="text-align:center">Email</th>
+							<th style="text-align:center">Location</th>
+							<th style="text-align:center">Primary</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="contact in contactListCtrl.contacts | filter:search ">								
+							<td style="text-align:center" ng-hide = 'show'>{{contact.name}}</td>
+							<td style="text-align:center" ng-hide = 'show'>{{contact.email}}</td>
+							<td style="text-align:center" ng-hide = 'show'>{{contact.location}}</td>
+							<td  style="text-align:center"ng-hide = 'show'>{{contact.primary}}</td>
+							<td style="text-align:center" ng-hide = 'show'>
+								<button class="btn btn-primary btn-sm" ng-disabled = "editCtrl.editing" ng-click="editCtrl.setEditContact(contact); show = !show">
+									Edit
+								</button>
+							</td>
+							<td  style="text-align:center"ng-hide = 'show'>
+								<button style= "background-color:red"class="btn btn-primary btn-sm" ng-disabled = "editCtrl.editing" ng-click="contactListCtrl.updateContacts('delete', contact, null)">
+									Delete
+								</button>
+							</td>				
+							<td style="text-align:center" ng-show = 'show'>
+								<input style="text-align:center" ng-model='editCtrl.editContact.name' class="form-control" placeholder='{{editCtrl.editContact.name}}' title="Name">
+							</td>
+							<td style="text-align:center" ng-show = 'show'>
+								<input style="text-align:center" ng-model='editCtrl.editContact.email' class="form-control" placeholder='{{editCtrl.editContact.email}}' title="Name">
+							</td>
+							<td style="text-align:center" ng-show = 'show'>
+								<input style="text-align:center" ng-model='editCtrl.editContact.location' class="form-control" placeholder='{{editCtrl.editContact.location}}' title="Name">
+							</td>
+							<td style="text-align:center" ng-show = 'show'>
+								<input style="text-align:center" ng-model='editCtrl.editContact.primary' class="form-control" placeholder='{{editCtrl.editContact.primary}}' title="Name">
+							</td>
+							<td style="text-align:center" ng-show = 'show'>
+								<button class="btn btn-primary btn-sm" ng-click="contactListCtrl.updateContacts('edit', contact, editCtrl.editContact); editCtrl.cancelEdit()">
+									Save
+							</button>
+							</td>	
+							<td style="text-align:center" ng-show = 'show'>
+								<button class="btn btn-primary btn-sm" ng-click="editCtrl.cancelEdit(); show = !show">
+									Cancel
+								</button>
+							</td>					
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class = "container" ng-hide = 'editCtrl.editing'>
+			<div class="row" style="text-align:center">
+				<h2>Search<h2>
+			</div>
+			<div class="row">
+				<div class= "col-sm-1"></div>
+				<div class= "col-sm-1"></div>
+				<div class="form-group col-sm-2">
+					<input style="text-align:center" type="text" ng-model="search.name" class="form-control" placeholder="Name">
+				</div>
+				<div class="form-group col-sm-2">
+					<input style="text-align:center" type="email" ng-model="search.email" class="form-control" placeholder="Email">
+				</div>
+				<div class="form-group col-sm-2">
+					<input style="text-align:center" type="text" ng-model="search.location" class="form-control" placeholder="Location">
+				</div>
+				<div class="form-group col-sm-2">
+					<input style="text-align:center" type="tel" ng-model="search.primary" class="form-control" placeholder="Primary">
+				</div>
+				<div class= "col-sm-1"></div>
+			</div>
+		</div>
+	</div>
+ </body>
+</html>
